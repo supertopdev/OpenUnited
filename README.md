@@ -21,6 +21,7 @@ Please ensure you have a PostgreSQL server running. If you haven't already, you 
 
 You can also pull the docker image of PostgreSQL. Here are the commands to run if you want to use the docker image:
 
+bash
 ```
 docker pull postgres
 docker run --name <name of your db> -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
