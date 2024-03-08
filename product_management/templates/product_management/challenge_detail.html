@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'toast.html' %}
+
+<div class="flex flex-col">
+    {% include 'product_management/partials/breadcrumbs.html' %}
+    <h2 class="mt-2.5 mb-[50px] max-w-[536px] w-full text-neutral-800 text-xl">{{ challenge.title }}</h2>
+    <div class="flex flex-col mb-6 space-y-3.5 text-sm text-black/[0.85]">
+        <p{{ challenge.short_description }}>
+            </p>
+
+            <p>{{ challenge.description }}</p>
+    </div>
+
+    <div class="flex flex-col">
+        {% with bounties=challenge.bounty_set.all() %}
+            {% include 'product_management/partials/bounty_detail_table.html' %}
+        {% endwith %}
+    </div>
+
+    <div class="flex flex-col space-y-2.5 my-6">
+        <div class="flex items-center text-xs text-black/[0.85]">
+            <strong>Created By:</strong>
+            <a href="#" class="flex items-center ml-4">
+                <div class="flex items-center justify-center shrink-0 w-8 h-8 mr-1.5">
+                    <img class="w-full h-full rounded-full bg-gray-50 ring-2 ring-white"
+                        src="https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="Challenge Owner Photo">
+                </div>
+                <div class="text-neutral-800">{{ challenge.created_by.get_full_name() }}</div>
+            </a>
+        </div>
+        <div class="flex items-center text-xs text-black/[0.85]">
+            <strong>Status:</strong> <span class="font-bold ml-1">{{ challenge.get_status_display() }}</span>
+        </div>
+        <div class="flex items-center text-xs text-black/[0.85]">
+            <strong>Priority:</strong> <span class="text-green-400 ml-1">{{ challenge.get_priority_display() }}</span>
+        </div>
+        {% if challenge.reviewer %}
+        <div class="flex items-center text-xs text-black/[0.85]">
+            <strong>Reviewer:</strong>
+            <a href="#" class="flex items-center ml-4">
+                <div class="flex items-center justify-center shrink-0 w-8 h-8 mr-1.5">
+                    <img class="w-full h-full rounded-full bg-gray-50 ring-2 ring-white"
+                        src="{{ static('images/user.png') }}" alt="Reviewer Photo">
+                </div>
+                <div class="text-neutral-800">{{ challenge.reviewer.get_full_name() }}</div>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <form action="" class="flex flex-col">
+        <label for="comments" class="block text-sm font-medium leading-6 text-gray-900">Ask a question or make a
+            comment about the challenge</label>
+        <div class="mt-2">
+            <textarea id="comments" name="comments" rows="3"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-transparent sm:text-sm sm:leading-6"></textarea>
+        </div>
+
+        <button type="submit"
+            class="appearance-none w-fit flex items-center justify-center mt-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all">Add
+            Comment</button>
+    </form>
+</div>
+
+<!-- Modal for challenge claim form -->
+<div id="bounty-claim-modal" hx-target="this"></div>
+
+{% endblock %}
